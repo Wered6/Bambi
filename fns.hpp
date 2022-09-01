@@ -55,4 +55,5 @@ void next();
 int cube6();
 void stats_details();
 
+void dealing_dmg(Creature &name1, Creature &name2, std::string type="physic");
 void battle(Creature &name1, Creature &name2);

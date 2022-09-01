@@ -16,7 +16,7 @@ Creature::Creature(std::string new_nickname, int new_hp, int new_mana, int new_s
 
 void Creature::death() {
 
-    std::cout << nickname << " died! R.I.P.! Goodbye Drama!\n";
+    std::cout << "\n" << nickname << " died! R.I.P.! Goodbye Drama!\n";
 
 }
 

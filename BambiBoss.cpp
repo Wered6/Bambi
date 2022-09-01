@@ -20,8 +20,6 @@ int main() {
 
     stats_details();
 
-
-
     battle(Player1, Bambi);
 
 }

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include "fns.hpp"
-#include <vector>
 
 
 //story
@@ -114,6 +113,30 @@ void stats_details() {
 
 
 
+void dealing_dmg(Creature &name1, Creature &name2, std::string type) {
+
+    if (type == "physic") {
+
+        int dmg = cube6() * name1.get_strength();
+        name2.sub_hp(dmg);
+        if (name2.get_hp() < 0) {
+            name2.set_hp(0);
+        }
+        std::cout << "\nYou dealt " << dmg << " dmg to " << name2.get_nickname() << "!\n";
+
+    } else if (type == "magic") {
+
+        int dmg = cube6() * name1.get_intellect();
+        name2.sub_hp(dmg);
+        if (name2.get_hp() < 0) {
+            name2.set_hp(0);
+        }
+        std::cout << "\nYou dealt " << dmg << " dmg to " << name2.get_nickname() << "!\n";
+
+    }
+
+}
+
 void battle(Creature &name1, Creature &name2) {
 
     int choose;
@@ -132,16 +155,11 @@ void battle(Creature &name1, Creature &name2) {
 
     }
 
-    while (!((name1.get_hp() <= 0) || (name2.get_hp() <=0))) {
+    while ((name1.get_hp() > 0) && (name2.get_hp() > 0)) {
 
         if (choose == 1) {
-
-            int dmg = cube6() * name1.get_strength();
-            name2.sub_hp(dmg);
-            if (name2.get_hp() < 0) {
-                name2.set_hp(0);
-            }
-            std::cout << "\nYou dealt " << dmg << " dmg to " << name2.get_nickname() << "!\n";
+            
+            dealing_dmg(name1, name2);
             name1.show_stats();
             name2.show_stats();
 
@@ -149,7 +167,9 @@ void battle(Creature &name1, Creature &name2) {
 
         else if (choose == 2) {
 
-            name2.sub_hp(cube6() * name1.get_intellect());
+            dealing_dmg(name1, name2, "magic");
+            name1.show_stats();
+            name2.show_stats();
         
         }
 
@@ -164,7 +184,7 @@ void battle(Creature &name1, Creature &name2) {
             
         }
 
-        while (!((name1.get_hp() <= 0) || (name2.get_hp() <=0))) {
+        while ((name1.get_hp() > 0) && (name2.get_hp() > 0)) {
 
             std::cout << "\nWhat you want to do?\n";
             std::cout << "1. Use main hand to attack.\n";
@@ -174,11 +194,21 @@ void battle(Creature &name1, Creature &name2) {
             break;
         }
 
-        while (!((name1.get_hp() <= 0) || (name2.get_hp() <=0)) && !(std::cin >> choose)) {
+        while ((name1.get_hp() > 0) && (name2.get_hp() > 0) && !(std::cin >> choose)) {
 
             std::cout << "\n\nEnter valid number!\n";
             std::cin.clear();
             std::cin.ignore(1000, '\n');
+
+        }
+
+        if (name1.get_hp() == 0) {
+
+            name1.death();
+
+        } else if (name2.get_hp() == 0) {
+
+            name2.death();
 
         }
 
