@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "fns.hpp"
+#include <vector>
 
 
 //story
@@ -117,7 +118,7 @@ void battle(Creature &name1, Creature &name2) {
 
     int choose;
 
-    std::cout << "\nChoose what you want to do!\n";
+    std::cout << "\nWhat you want to do?\n";
     std::cout << "1. Use main hand to attack.\n";
     std::cout << "2. Cast a spell.\n";
     std::cout << "3. Search bag for artifacts.\n";
@@ -133,27 +134,47 @@ void battle(Creature &name1, Creature &name2) {
 
     while (!((name1.get_hp() <= 0) || (name2.get_hp() <=0))) {
 
-        switch (choose) {
+        if (choose == 1) {
 
-            case 1:
-                name2.sub_hp(cube6() * name1.get_strength());
-                break;
-            case 2:
-                name2.sub_hp(cube6() * name1.get_intellect());
-                break;
-            case 3:
-                std::cout << "You don't have any artifacts.\n";
-                break;
-            default:
-                std::cout << "\n\nEnter valid number!\n";
-                break;
+            int dmg = cube6() * name1.get_strength();
+            name2.sub_hp(dmg);
+            if (name2.get_hp() < 0) {
+                name2.set_hp(0);
+            }
+            std::cout << "\nYou dealt " << dmg << " dmg to " << name2.get_nickname() << "!\n";
+            name1.show_stats();
+            name2.show_stats();
 
+        } 
+
+        else if (choose == 2) {
+
+            name2.sub_hp(cube6() * name1.get_intellect());
+        
         }
 
-        name1.show_stats();
-        name2.show_stats();
+        else if (choose == 3) {
 
-        while (!(std::cin >> choose)) {
+            std::cout << "You don't have any artifacts.\n";
+    
+        }
+        else {
+
+            std::cout << "\n\nEnter valid number!\n";
+            
+        }
+
+        while (!((name1.get_hp() <= 0) || (name2.get_hp() <=0))) {
+
+            std::cout << "\nWhat you want to do?\n";
+            std::cout << "1. Use main hand to attack.\n";
+            std::cout << "2. Cast a spell.\n";
+            std::cout << "3. Search bag for artifacts.\n";
+            std::cout << "Choose:\n";
+            break;
+        }
+
+        while (!((name1.get_hp() <= 0) || (name2.get_hp() <=0)) && !(std::cin >> choose)) {
 
             std::cout << "\n\nEnter valid number!\n";
             std::cin.clear();

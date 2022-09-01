@@ -24,7 +24,4 @@ int main() {
 
     battle(Player1, Bambi);
 
-    Player1.show_stats();
-    Bambi.show_stats();
-
 }
