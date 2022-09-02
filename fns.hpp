@@ -1,3 +1,63 @@
+#include <vector>
+
+class Spell {
+
+    std::string name;
+    int base_dmg;
+    int mana_cost;
+
+public:
+
+    Spell(std::string new_name, int new_base_dmg=0, int new_mana_cost=0);
+    ~Spell();
+
+    void show_stats();
+
+    std::string get_name();
+    int get_base_dmg();
+    int get_mana_cost();
+
+};
+class Weapon {
+
+    std::string name;
+    int base_dmg;
+
+public:
+
+    Weapon(std::string new_name, int new_base_dmg=0);
+    ~Weapon();
+
+    void show_stats();
+
+    std::string get_name();
+    int get_base_dmg();
+
+};
+class Artifact {
+
+    std::string name;
+    int hp;
+    int mana;
+    int strength;
+    int intellect;
+    int luck;
+
+public:
+
+    Artifact(std::string new_name, int new_hp=0, int new_mana=0, int new_strength=0, int new_intellect=0, int new_luck=0);
+    ~Artifact();
+
+    void show_stats();
+
+    std::string get_name();
+    int get_hp();
+    int get_mana();
+    int get_strength();
+    int get_intellect();
+    int get_luck();
+
+};
 class Creature {
 
     std::string nickname;
@@ -7,9 +67,12 @@ class Creature {
     int intellect;
     int luck;
 
+    std::vector<Spell> spells;
+
 public:
 
     Creature(std::string new_nickname, int new_hp=100, int new_mana=100, int new_strength=5, int new_intellect=5, int new_luck=0);
+    ~Creature();
 
     void death();
 
@@ -44,6 +107,10 @@ public:
     void add_luck(int added_luck);
     void sub_luck(int subbed_luck);
     int get_luck();
+
+
+    void add_spell(Spell new_spell);
+    std::vector<Spell> get_spells();
 
 };
 
