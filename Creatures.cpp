@@ -20,18 +20,23 @@ void Creature::death() {
 }
 
 void Creature::show_stats() {
-    std::cout << "\n\n" << nickname << " stats:\n\n";
-    std::cout << "1) [HP]:        " << hp << "\n";
-    std::cout << "2) [Mana]:      " << mana << "\n";
-    std::cout << "3) [Strength]:  " << strength << "\n";
-    std::cout << "4) [Intellect]: " << intellect << "\n";
-    std::cout << "5) [Luck]:      " << luck << "\n";
+    delay_text("\n\n" + nickname + " stats:\n\n");
+    delay_text("1) [HP]:        ");
+    std::cout << hp << "\n";
+    delay_text("2) [Mana]:      ");
+    std::cout << mana << "\n";
+    delay_text("3) [Strength]:  ");
+    std::cout << strength << "\n";
+    delay_text("4) [Intellect]: ");
+    std::cout << intellect << "\n";
+    delay_text("5) [Luck]:      ");
+    std::cout << luck << "\n";
 }
 
 
 
 void Creature::set_nickname() {
-    std::cout << "Enter your name adventurer:\n";
+    delay_text("Enter your name adventurer:\n");
     std::cin >> nickname;
 }
 std::string Creature::get_nickname() {
@@ -109,4 +114,12 @@ void Creature::add_spell(Spell new_spell) {
 }
 std::vector<Spell> Creature::get_spells() {
     return spells;
+}
+void Creature::show_spells() {
+    int i = 1;
+    for (Spell spell : get_spells()) {
+        std::cout << "\n" << i;
+        i++;
+        spell.show_stats();
+    }
 }

@@ -111,16 +111,29 @@ public:
 
     void add_spell(Spell new_spell);
     std::vector<Spell> get_spells();
+    void show_spells();
 
 };
+
+void delay_text(std::string text, int time=5); //delaying text
+void cin_only_numbers(int &input, int end, int start=1); //u can input only numbers
 
 void intro();
 void story1(std::string name);
 void story2(std::string name);
+void next(); //asking to go next
 
-void next();
-int cube6();
-void stats_details();
+int cube(int i); //random number 1-i
+int cube2(); //random number 1-2
+int cube6(); //random number 1-6
 
-void dealing_dmg(Creature &name1, Creature &name2, std::string type="physic");
-void battle(Creature &name1, Creature &name2);
+void stats_details(); //asking if u want to know details of specific details
+
+void hand_dmg(Creature &hero, Creature &enemy); //dealing dmg with hand
+void wepaon_dmg(Creature &hero, Creature &enemy, Weapon weapon); //dealing dmg with weapon
+void spell_dmg(Creature &hero, Creature &enemy, Spell spell); //dealing dmg with spell
+void change_opponent(int &opponent); //changing opponent in battle
+
+void battle(Creature &hero, Creature &enemy); //main battle with every opponent
+
+// Creature Player1("Player1");

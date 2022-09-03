@@ -1,42 +1,61 @@
 #include <iostream>
 #include <stdlib.h>
 #include "fns.hpp"
+#include "windows.h"
+#include <string>
 
 
 //story
 
+void delay_text(std::string text, int time) {
+    for (char i : text) {
+        std::cout << i;
+        Sleep(time);
+    }
+}
+void cin_only_numbers(int &input, int end, int start) {
+    while (!(std::cin >> input) || input < start || input > end) {
+        delay_text("\nEnter valid number!\n");
+        std::cin.clear();
+        std::cin.ignore(1000, '\n');
+        }
+}
+
 void intro() {
-    std::cout << "===============\n";
-    std::cout << "BAMBI'S CASTLE!\n";
-    std::cout << "===============\n\n";
+    delay_text("===============\n");
+    delay_text("BAMBI'S CASTLE!\n");
+    delay_text("===============\n\n");
 }
-
 void story1(std::string name) {
-    std::cout << "\nHello " << name << "!\nWe called you to help us defeat the three-headed dog Bambi! She is very dangerous monster and she is a threat to our village!\n";
+    delay_text("\nHello " + name + "!\nWe called you to help us defeat the three-headed dog Bambi! She is very dangerous monster and she is a threat to our village!\n");
 
     next();
 }
-
 void story2(std::string name) {
-    std::cout << "\n\n" << name << " To get to the castle you have to take a long trip through woods and mountains. During the adventure we will collect various artifacts to strengthen ourselves!\n";
+    delay_text("\n\n" + name + " To get to the castle you have to take a long trip through woods and mountains. During the adventure we will collect various artifacts to strengthen ourselves!\n");
 
     next();
 }
-
 
 
 void next() {
     std::string go;
-
-    std::cout << "\nType anything and click 'Enter' to go further.\n";
+    delay_text("\nType anything and click 'Enter' to go further.\n");
     std::cin >> go;
 }
-
+int cube(int i) {
+    srand (time(NULL));
+    return rand() % i + 1;
+}
+int cube2() {
+    srand (time(NULL));
+    return rand() % 2 + 1;
+}
 int cube6() {
     srand (time(NULL));
- 
     return rand() % 6 + 1;
 }
+
 
 
 void stats_details() {
@@ -44,18 +63,18 @@ void stats_details() {
     int stat;
 
 
-    std::cout <<"\nDo you need more information about any of statistics?\n";
+    delay_text("\nDo you need more information about any of statistics?\n");
 
     while (ready != "Y" && ready != "N" && ready != "y" && ready != "n") {
-    std::cout << "(Y/N)?\n";
+    delay_text("(Y/N)?\n");
     std::cin >> ready;
     }
 
     if (ready == "Y" || ready == "y") {
-    std::cout << "\nEnter stat number to show descritpion (or '0' to go ahead):\n";
+    delay_text("\nEnter stat number to show descritpion (or '0' to go ahead):\n");
 
     while (!(std::cin >> stat)) {
-        std::cout << "\n\nEnter valid stat number!\n";
+        delay_text("\n\nEnter valid stat number!\n");
         std::cin.clear();
         std::cin.ignore(1000, '\n');
     }
@@ -63,28 +82,28 @@ void stats_details() {
         while (stat != 0) {
             
             if (stat == 1) {
-                std::cout << "\n\n[HP] is your health points.";
+                delay_text("\n\n[HP] is your health points.");
             }
             else if (stat == 2) {
-                std::cout << "\n\n[Mana] is kind of energy you have in yourself. It is required to cast spells or use some magical artifacts!";
+                delay_text("\n\n[Mana] is kind of energy you have in yourself. It is required to cast spells or use some magical artifacts!");
             }
             else if (stat == 3) {
-                std::cout << "\n\n[Strength] shows how much strength you have. It increases damage from non-magical weapons.";
+                delay_text("\n\n[Strength] shows how much strength you have. It increases damage from non-magical weapons.");
             }
             else if (stat == 4) {
-                std::cout << "\n\n[Intellect] shows how wise you are. It increases damage from magical weapons or spells.";
+                delay_text("\n\n[Intellect] shows how wise you are. It increases damage from magical weapons or spells.");
             }
             else if (stat == 5) {
-                std::cout << "\n\n[Luck] is most random statistic you have. It increases loot chance and critical damage chance.";
+                delay_text("\n\n[Luck] is most random statistic you have. It increases loot chance and critical damage chance.");
             }
             else {
-                std::cout << "\n\nEnter valid stat number!";
+                delay_text("\n\nEnter valid stat number!");
             }
-            std::cout << "\n\nEnter stat number to show descritpion (or '0' to go ahead):\n";
+            delay_text("\n\nEnter stat number to show descritpion (or '0' to go ahead):\n");
 
 
             while (!(std::cin >> stat)) {
-                std::cout << "\n\nEnter valid stat number!\n";
+                delay_text("\n\nEnter valid stat number!\n");
                 std::cin.clear();
                 std::cin.ignore(1000, '\n');
             }
@@ -92,83 +111,88 @@ void stats_details() {
     }
 }
 
-
-
-void dealing_dmg(Creature &name1, Creature &name2, std::string type) {
-    if (type == "physic") {
-        int dmg = cube6() * name1.get_strength();
-        name2.sub_hp(dmg);
-        if (name2.get_hp() < 0) {
-            name2.set_hp(0);
-        }
-        std::cout << "\nYou dealt " << dmg << " dmg to " << name2.get_nickname() << "!\n";
-    } else if (type == "magic") {
-        int dmg = cube6() * name1.get_intellect();
-        name2.sub_hp(dmg);
-        if (name2.get_hp() < 0) {
-            name2.set_hp(0);
-        }
-        std::cout << "\nYou dealt " << dmg << " dmg to " << name2.get_nickname() << "!\n";
+void hand_dmg(Creature &op1, Creature &op2) {
+    int dmg = cube6() * op1.get_strength();
+    op2.sub_hp(dmg);
+    if (op2.get_hp() < 0) {
+        op2.set_hp(0);
+    }
+    delay_text("\n" + op1.get_nickname() + " used bare hands and dealt ");
+    std::cout << dmg;
+    delay_text(" physical dmg to " + op2.get_nickname() + "!\n");
+}
+void weapon_dmg(Creature &op1, Creature &op2, Weapon weapon) {
+    int dmg = cube6() * op1.get_strength() * weapon.get_base_dmg();
+    op2.sub_hp(dmg);
+    if (op2.get_hp() < 0) {
+        op2.set_hp(0);
+    }
+    delay_text("\n" + op1.get_nickname() + " used " + weapon.get_name() + " and dealt ");
+    std::cout << dmg;
+    delay_text(" physical dmg to " + op2.get_nickname() + "!\n");
+}
+void spell_dmg(Creature &op1, Creature &op2, Spell spell) {
+    int dmg = cube6() * op1.get_intellect() * spell.get_base_dmg();
+    int mana_cost = spell.get_mana_cost();
+    if (op1.get_mana() < mana_cost) {
+        delay_text("You do not have enough mana to cast this spell!");
+    } else {
+        op1.sub_mana(mana_cost);
+        op2.sub_hp(dmg);
+        delay_text("\n" + op1.get_nickname() + " used " + spell.get_name() + " and dealt ");
+        std::cout << dmg;
+        delay_text(" magical dmg to " + op2.get_nickname() + "!\n");
+    }
+    if (op2.get_hp() < 0) {
+        op2.set_hp(0);
     }
 }
 
-void battle(Creature &name1, Creature &name2) {
+void change_opponent(int &opponent) {
+    if (opponent == 1) {
+        opponent = 2;
+    } else {
+        opponent = 1;
+    }
+}
+
+void battle(Creature &hero, Creature &enemy) {
     int choose;
+    int opponent = 1;
+    while ((hero.get_hp() > 0) && (enemy.get_hp() > 0)) {
+        if (opponent == 1) {
+            delay_text("\nWhat you want to do?\n");
+            delay_text("1. Use hand to attack.\n");
+            delay_text("2. Use weapon to attack.\n");
+            delay_text("3. Cast a spell.\n");
+            delay_text("Choose:\n");
 
-    std::cout << "\nWhat you want to do?\n";
-    std::cout << "1. Use main hand to attack.\n";
-    std::cout << "2. Cast a spell.\n";
-    std::cout << "3. Search bag for artifacts.\n";
-    std::cout << "Choose:\n";
-
-    while (!(std::cin >> choose)) {
-        std::cout << "\n\nEnter valid number!\n";
-        std::cin.clear();
-        std::cin.ignore(1000, '\n');
-    }
-
-    while ((name1.get_hp() > 0) && (name2.get_hp() > 0)) {
-        if (choose == 1) {
-            
-            dealing_dmg(name1, name2);
-            name1.show_stats();
-            name2.show_stats();
-        } else if (choose == 2) {
-
-            dealing_dmg(name1, name2, "magic");
-            name1.show_stats();
-            name2.show_stats();
-        
-        } else if (choose == 3) {
-
-            std::cout << "You don't have any artifacts.\n";
-    
+            cin_only_numbers(choose, 3);
+            if (choose == 1) {
+                hand_dmg(hero, enemy);
+                hero.show_stats();
+                enemy.show_stats();
+            } else if (choose == 2) {
+                delay_text("You can't use weapons now!\n");
+            } else if (choose == 3) {
+                int choose_spell;
+                delay_text("Choose what spell you want to use:\n\n");
+                hero.show_spells();
+                cin_only_numbers(choose_spell, hero.get_spells().size());
+                spell_dmg(hero, enemy, hero.get_spells()[choose_spell - 1]);
+                hero.show_stats();
+                enemy.show_stats();
+            }
         } else {
-
-            std::cout << "\n\nEnter valid number!\n";
-            
+            spell_dmg(enemy, hero, enemy.get_spells()[cube(enemy.get_spells().size()) - 1]);
+            hero.show_stats();
+            enemy.show_stats();
         }
-        while ((name1.get_hp() > 0) && (name2.get_hp() > 0)) {
-
-            std::cout << "\nWhat you want to do?\n";
-            std::cout << "1. Use main hand to attack.\n";
-            std::cout << "2. Cast a spell.\n";
-            std::cout << "3. Search bag for artifacts.\n";
-            std::cout << "Choose:\n";
-            break;
-        }
-        while ((name1.get_hp() > 0) && (name2.get_hp() > 0) && !(std::cin >> choose)) {
-
-            std::cout << "\n\nEnter valid number!\n";
-            std::cin.clear();
-            std::cin.ignore(1000, '\n');
-
-        }
-        if (name1.get_hp() == 0) {
-            name1.death();
-        } else if (name2.get_hp() == 0) {
-            name2.death();
+        change_opponent(opponent);
+        if (hero.get_hp() == 0) {
+            hero.death();
+        } else if (enemy.get_hp() == 0) {
+            enemy.death();
         }
     }
 }
-

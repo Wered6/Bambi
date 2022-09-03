@@ -13,9 +13,11 @@ Spell::~Spell() {
 }
 
 void Spell::show_stats() {
-    std::cout << "\n\n" << name << " spell stats:\n\n";
-    std::cout << "[Base DMG]:      " << base_dmg << "\n";
-    std::cout << "[Mana cost]:     " << mana_cost << "\n"; 
+    delay_text("\n" + name + " spell stats:\n\n");
+    delay_text("[Base DMG]:      ");
+    std::cout << base_dmg << "\n";
+    delay_text("[Mana cost]:     ");
+    std::cout << mana_cost << "\n"; 
 }
 
 std::string Spell::get_name() {
