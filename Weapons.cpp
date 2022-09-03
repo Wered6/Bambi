@@ -12,8 +12,9 @@ Weapon::~Weapon() {
 }
 
 void Weapon::show_stats() {
-    std::cout << "\n\n" << name << " weapon stats:\n\n";
-    std::cout << "[Base DMG]:      " << base_dmg << "\n";
+    delay_text("\n" + name + " weapon stats:\n\n");
+    delay_text("[Base DMG]:      ");
+    std::cout << base_dmg << "\n";
 }
 
 std::string Weapon::get_name() {

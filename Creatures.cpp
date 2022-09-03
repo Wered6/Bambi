@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include "fns.hpp"
 
 
@@ -37,6 +38,7 @@ void Creature::show_stats() {
 
 void Creature::set_nickname() {
     delay_text("Enter your name adventurer:\n");
+    change_color();
     std::cin >> nickname;
 }
 std::string Creature::get_nickname() {
@@ -109,6 +111,7 @@ int Creature::get_luck() {
     return luck;
 }
 
+
 void Creature::add_spell(Spell new_spell) {
     spells.push_back(new_spell);
 }
@@ -121,5 +124,20 @@ void Creature::show_spells() {
         std::cout << "\n" << i;
         i++;
         spell.show_stats();
+    }
+}
+
+void Creature::add_weapon(Weapon new_weapon) {
+    weapons.push_back(new_weapon);
+}
+std::vector<Weapon> Creature::get_weapons() {
+    return weapons;
+}
+void Creature::show_weapons() {
+    int i = 1;
+    for (Weapon weapon : get_weapons()) {
+        std::cout << "\n" << i;
+        i++;
+        weapon.show_stats();
     }
 }

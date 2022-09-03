@@ -1,4 +1,5 @@
 #include <vector>
+#include <windows.h>
 
 class Spell {
 
@@ -68,6 +69,7 @@ class Creature {
     int luck;
 
     std::vector<Spell> spells;
+    std::vector<Weapon> weapons;
 
 public:
 
@@ -113,8 +115,15 @@ public:
     std::vector<Spell> get_spells();
     void show_spells();
 
+    void add_weapon(Weapon new_weapon);
+    std::vector<Weapon> get_weapons();
+    void show_weapons();
+
 };
 
+
+void change_color(int i=10); //change color to green
+void back_to_default_color(); //back to default color text
 void delay_text(std::string text, int time=5); //delaying text
 void cin_only_numbers(int &input, int end, int start=1); //u can input only numbers
 
@@ -123,7 +132,7 @@ void story1(std::string name);
 void story2(std::string name);
 void next(); //asking to go next
 
-int cube(int i); //random number 1-i
+int cube(int i, int j=1); //random number j(1)-i
 int cube2(); //random number 1-2
 int cube6(); //random number 1-6
 
@@ -131,9 +140,7 @@ void stats_details(); //asking if u want to know details of specific details
 
 void hand_dmg(Creature &hero, Creature &enemy); //dealing dmg with hand
 void wepaon_dmg(Creature &hero, Creature &enemy, Weapon weapon); //dealing dmg with weapon
-void spell_dmg(Creature &hero, Creature &enemy, Spell spell); //dealing dmg with spell
+void spell_dmg(Creature &hero, Creature &enemy, Spell spell, bool move); //dealing dmg with spell
 void change_opponent(int &opponent); //changing opponent in battle
 
 void battle(Creature &hero, Creature &enemy); //main battle with every opponent
-
-// Creature Player1("Player1");
