@@ -1,11 +1,10 @@
 #include <iostream>
-#include <windows.h>
 #include "fns.hpp"
 
 
 
-Creature::Creature(std::string new_nickname, int new_hp, int new_mana, int new_strength, int new_intellect, int new_luck) {
-    nickname = new_nickname;
+Creature::Creature(std::string new_name, int new_hp, int new_mana, int new_strength, int new_intellect, int new_luck) {
+    name = new_name;
     hp = new_hp;
     mana = new_mana;
     strength = new_strength;
@@ -17,11 +16,12 @@ Creature::~Creature() {
 }
 
 void Creature::death() {
-    std::cout << "\n" << nickname << " died! R.I.P.! Goodbye Drama!\n";
+    delay_text("\n" + name + " died! R.I.P.! Goodbye Drama!\n");
 }
 
+
 void Creature::show_stats() {
-    delay_text("\n\n" + nickname + " stats:\n\n");
+    delay_text("\n\n" + name + " stats:\n\n");
     delay_text("1) [HP]:        ");
     std::cout << hp << "\n";
     delay_text("2) [Mana]:      ");
@@ -36,13 +36,13 @@ void Creature::show_stats() {
 
 
 
-void Creature::set_nickname() {
+void Creature::set_name() {
     delay_text("Enter your name adventurer:\n");
     change_color();
-    std::cin >> nickname;
+    std::cin >> name;
 }
-std::string Creature::get_nickname() {
-    return nickname;
+std::string Creature::get_name() {
+    return name;
 }
 
 
@@ -148,9 +148,9 @@ void Creature::hand_dmg(Creature &opponent) {
     if (opponent.get_hp() < 0) {
         opponent.set_hp(0);
     }
-    delay_text("\n" + get_nickname() + " used bare hands and dealt ");
+    delay_text("\n" + get_name() + " used bare hands and dealt ");
     std::cout << dmg;
-    delay_text(" physical dmg to " + opponent.get_nickname() + "!\n");
+    delay_text(" physical dmg to " + opponent.get_name() + "!\n");
 }
 void Creature::weapon_dmg(Creature &opponent, Weapon weapon) {
     int dmg = cube6() * get_strength() * weapon.get_base_dmg() * critical_chance(get_luck() + weapon.get_critical_chance());
@@ -158,19 +158,20 @@ void Creature::weapon_dmg(Creature &opponent, Weapon weapon) {
     if (opponent.get_hp() < 0) {
         opponent.set_hp(0);
     }
-    delay_text("\n" + get_nickname() + " used " + weapon.get_name() + " and dealt ");
+    delay_text("\n" + get_name() + " used " + weapon.get_name() + " and dealt ");
     std::cout << dmg;
-    delay_text(" physical dmg to " + opponent.get_nickname() + "!\n");
+    delay_text(" physical dmg to " + opponent.get_name() + "!\n");
 }
 void Creature::spell_dmg(Creature &opponent, Spell spell) {
     int dmg = cube6() * get_intellect() * spell.get_base_dmg() * critical_chance(get_luck());
     int mana_cost = spell.get_mana_cost();
     sub_mana(mana_cost);
     opponent.sub_hp(dmg);
-    delay_text("\n" + get_nickname() + " used " + spell.get_name() + " and dealt ");
+    delay_text("\n" + get_name() + " used " + spell.get_name() + " and dealt ");
     std::cout << dmg;
-    delay_text(" magical dmg to " + opponent.get_nickname() + "!\n");
+    delay_text(" magical dmg to " + opponent.get_name() + "!\n");
     if (opponent.get_hp() < 0) {
         opponent.set_hp(0);
     }
 } 
+

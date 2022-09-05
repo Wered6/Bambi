@@ -6,7 +6,6 @@
 
 
 
-
 void change_color(int i) {
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(h,i);
@@ -113,10 +112,10 @@ void change_opponent(int &op) {
     }
 }
 
-void battle(Creature &hero, Creature &enemy) {
+void battle(Hero &hero, Creature &enemy) {
     int choose;
     int op_num = 1;
-    delay_text("Fight between " + hero.get_nickname() + " and " + enemy.get_nickname() + " begins!\n");
+    delay_text("Fight between " + hero.get_name() + " and " + enemy.get_name() + " begins!\n");
     hero.show_stats();
     enemy.show_stats();
     while ((hero.get_hp() > 0) && (enemy.get_hp() > 0)) {
@@ -173,6 +172,7 @@ void battle(Creature &hero, Creature &enemy) {
         }
         if (hero.get_hp() == 0) {
             hero.death();
+            exit(0);
         } else if (enemy.get_hp() == 0) {
             enemy.death();
         }

@@ -1,5 +1,6 @@
 #include <vector>
-#include <windows.h>
+
+
 
 class Spell {
 
@@ -63,7 +64,9 @@ public:
 };
 class Creature {
 
-    std::string nickname;
+protected:
+
+    std::string name;
     int hp;
     int mana;
     int strength;
@@ -75,7 +78,7 @@ class Creature {
 
 public:
 
-    Creature(std::string new_nickname, int new_hp=100, int new_mana=100, int new_strength=5, int new_intellect=5, int new_luck=0);
+    Creature(std::string new_name, int new_hp=100, int new_mana=100, int new_strength=5, int new_intellect=5, int new_luck=0);
     ~Creature();
 
     void death();
@@ -83,8 +86,8 @@ public:
     void show_stats();
 
 
-    void set_nickname();
-    std::string get_nickname();
+    void set_name();
+    std::string get_name();
 
 
     void set_hp(int new_hp);
@@ -126,6 +129,14 @@ public:
     void spell_dmg(Creature &opponent, Spell spell);
 
 };
+class Hero: public Creature {
+public:
+
+    using Creature::Creature;
+    
+    void death();
+
+};
 
 
 void change_color(int i=10); //change color text to green
@@ -145,5 +156,5 @@ void stats_details(); //asking if u want to know details of specific statistics
 
 
 void change_opponent(int &op); //changing opponent in battle
-void battle(Creature &hero, Creature &enemy); //main battle with every opponent
+void battle(Hero &hero, Creature &enemy); //main battle with every opponent
 int critical_chance(int luck);
