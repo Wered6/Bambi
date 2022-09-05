@@ -44,7 +44,7 @@ void story1(std::string name) {
     next();
 }
 void story2(std::string name) {
-    delay_text("\n\n" + name + " To get to the castle you have to take a long trip through woods and mountains. During the adventure we will collect various artifacts to strengthen ourselves!\n");
+    delay_text("\n\n" + name + " to get to the castle you have to take a long trip through woods and mountains. During the adventure we will collect various artifacts to strengthen ourselves!\n");
 
     next();
 }
@@ -60,15 +60,10 @@ int cube(int i, int j) {
     srand (time(NULL));
     return rand() % i + j;
 }
-int cube2() {
-    srand (time(NULL));
-    return rand() % 2 + 1;
-}
 int cube6() {
     srand (time(NULL));
     return rand() % 6 + 1;
 }
-
 
 
 void stats_details() {
@@ -109,44 +104,12 @@ void stats_details() {
     }
 }
 
-void hand_dmg(Creature &op1, Creature &op2) {
-    int dmg = cube6() * op1.get_strength();
-    op2.sub_hp(dmg);
-    if (op2.get_hp() < 0) {
-        op2.set_hp(0);
-    }
-    delay_text("\n" + op1.get_nickname() + " used bare hands and dealt ");
-    std::cout << dmg;
-    delay_text(" physical dmg to " + op2.get_nickname() + "!\n");
-}
-void weapon_dmg(Creature &op1, Creature &op2, Weapon weapon) {
-    int dmg = cube6() * op1.get_strength() * weapon.get_base_dmg();
-    op2.sub_hp(dmg);
-    if (op2.get_hp() < 0) {
-        op2.set_hp(0);
-    }
-    delay_text("\n" + op1.get_nickname() + " used " + weapon.get_name() + " and dealt ");
-    std::cout << dmg;
-    delay_text(" physical dmg to " + op2.get_nickname() + "!\n");
-}
-void spell_dmg(Creature &op1, Creature &op2, Spell spell) {
-    int dmg = cube6() * op1.get_intellect() * spell.get_base_dmg();
-    int mana_cost = spell.get_mana_cost();
-    op1.sub_mana(mana_cost);
-    op2.sub_hp(dmg);
-    delay_text("\n" + op1.get_nickname() + " used " + spell.get_name() + " and dealt ");
-    std::cout << dmg;
-    delay_text(" magical dmg to " + op2.get_nickname() + "!\n");
-    if (op2.get_hp() < 0) {
-        op2.set_hp(0);
-    }
-}
 
-void change_opponent(int &opponent) {
-    if (opponent == 1) {
-        opponent = 2;
+void change_opponent(int &op) {
+    if (op == 1) {
+        op = 2;
     } else {
-        opponent = 1;
+        op = 1;
     }
 }
 
@@ -154,6 +117,8 @@ void battle(Creature &hero, Creature &enemy) {
     int choose;
     int op_num = 1;
     delay_text("Fight between " + hero.get_nickname() + " and " + enemy.get_nickname() + " begins!\n");
+    hero.show_stats();
+    enemy.show_stats();
     while ((hero.get_hp() > 0) && (enemy.get_hp() > 0)) {
         if (op_num == 1) {
             delay_text("\nWhat you want to do?\n");
@@ -163,40 +128,44 @@ void battle(Creature &hero, Creature &enemy) {
             delay_text("Choose:\n");
 
             cin_only_numbers(choose, 3);
-            if (choose == 1) {
-                hand_dmg(hero, enemy);
-                hero.show_stats();
-                enemy.show_stats();
-                change_opponent(op_num);
-            } else if (choose == 2) {
-                int choose_weapon;
-                delay_text("Choose what weapon you want to use:\n\n");
-                hero.show_weapons();
-                cin_only_numbers(choose_weapon, hero.get_weapons().size());
-                weapon_dmg(hero, enemy, hero.get_weapons()[choose_weapon - 1]);
-                hero.show_stats();
-                enemy.show_stats();
-                change_opponent(op_num);
-            } else if (choose == 3) {
-                int choose_spell;
-                delay_text("Choose what spell you want to use:\n\n");
-                hero.show_spells();
-                cin_only_numbers(choose_spell, hero.get_spells().size());
-                if (hero.get_spells()[choose_spell - 1].get_mana_cost() <= hero.get_mana()) {
-                    spell_dmg(hero, enemy, hero.get_spells()[choose_spell - 1]);
+            switch (choose) {
+                case 1:
+                    hero.hand_dmg(enemy);
                     hero.show_stats();
                     enemy.show_stats();
                     change_opponent(op_num);
-                } else {
-                    delay_text("You do not have enough mana to cast this spell. Choose another.\n");
-                }
+                    break;
+                case 2:
+                    int choose_weapon;
+                    delay_text("Choose what weapon you want to use:\n\n");
+                    hero.show_weapons();
+                    cin_only_numbers(choose_weapon, hero.get_weapons().size());
+                    hero.weapon_dmg(enemy, hero.get_weapons()[choose_weapon - 1]);
+                    hero.show_stats();
+                    enemy.show_stats();
+                    change_opponent(op_num);
+                    break;
+                case 3:
+                    int choose_spell;
+                    delay_text("Choose what spell you want to use:\n\n");
+                    hero.show_spells();
+                    cin_only_numbers(choose_spell, hero.get_spells().size());
+                    if (hero.get_spells()[choose_spell - 1].get_mana_cost() <= hero.get_mana()) {
+                        hero.spell_dmg(enemy, hero.get_spells()[choose_spell - 1]);
+                        hero.show_stats();
+                        enemy.show_stats();
+                        change_opponent(op_num);
+                    } else {
+                        delay_text("You do not have enough mana to cast this spell. Choose another.\n");
+                    }
+                    break;
             }
         } else {
-            int i = cube(2);
-            if (i == 1) {
-                spell_dmg(enemy, hero, enemy.get_spells()[cube(enemy.get_spells().size()) - 1]);
+            int i = cube(3);
+            if (i == 1 && enemy.get_spells().size() != 0) {
+                enemy.spell_dmg(hero, enemy.get_spells()[cube(enemy.get_spells().size()) - 1]);
             } else {
-                hand_dmg(enemy, hero);
+                enemy.weapon_dmg(hero, enemy.get_weapons()[cube(enemy.get_weapons().size()) -1]);
             }
             hero.show_stats();
             enemy.show_stats();
@@ -207,5 +176,14 @@ void battle(Creature &hero, Creature &enemy) {
         } else if (enemy.get_hp() == 0) {
             enemy.death();
         }
+    }
+}
+int critical_chance(int luck) {
+    int r_num = cube(100, 1);
+    if (r_num <= luck) {
+        delay_text("\nCRITICAL!");
+        return 2;
+    } else {
+        return 1;
     }
 }

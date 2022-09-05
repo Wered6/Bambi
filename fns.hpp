@@ -23,16 +23,18 @@ class Weapon {
 
     std::string name;
     int base_dmg;
+    int critical_chance;
 
 public:
 
-    Weapon(std::string new_name, int new_base_dmg=0);
+    Weapon(std::string new_name, int new_base_dmg=0, int new_critical_chance=0);
     ~Weapon();
 
     void show_stats();
 
     std::string get_name();
     int get_base_dmg();
+    int get_critical_chance();
 
 };
 class Artifact {
@@ -119,10 +121,14 @@ public:
     std::vector<Weapon> get_weapons();
     void show_weapons();
 
+    void hand_dmg(Creature &opponent);
+    void weapon_dmg(Creature &opponent, Weapon weapon);
+    void spell_dmg(Creature &opponent, Spell spell);
+
 };
 
 
-void change_color(int i=10); //change color to green
+void change_color(int i=10); //change color text to green
 void back_to_default_color(); //back to default color text
 void delay_text(std::string text, int time=5); //delaying text
 void cin_only_numbers(int &input, int end, int start=1); //u can input only numbers
@@ -133,14 +139,11 @@ void story2(std::string name);
 void next(); //asking to go next
 
 int cube(int i, int j=1); //random number j(1)-i
-int cube2(); //random number 1-2
 int cube6(); //random number 1-6
 
-void stats_details(); //asking if u want to know details of specific details
+void stats_details(); //asking if u want to know details of specific statistics
 
-void hand_dmg(Creature &hero, Creature &enemy); //dealing dmg with hand
-void wepaon_dmg(Creature &hero, Creature &enemy, Weapon weapon); //dealing dmg with weapon
-void spell_dmg(Creature &hero, Creature &enemy, Spell spell, bool move); //dealing dmg with spell
-void change_opponent(int &opponent); //changing opponent in battle
 
+void change_opponent(int &op); //changing opponent in battle
 void battle(Creature &hero, Creature &enemy); //main battle with every opponent
+int critical_chance(int luck);

@@ -141,3 +141,36 @@ void Creature::show_weapons() {
         weapon.show_stats();
     }
 }
+
+void Creature::hand_dmg(Creature &opponent) {
+    int dmg = cube6() * get_strength() * critical_chance(get_luck());
+    opponent.sub_hp(dmg);
+    if (opponent.get_hp() < 0) {
+        opponent.set_hp(0);
+    }
+    delay_text("\n" + get_nickname() + " used bare hands and dealt ");
+    std::cout << dmg;
+    delay_text(" physical dmg to " + opponent.get_nickname() + "!\n");
+}
+void Creature::weapon_dmg(Creature &opponent, Weapon weapon) {
+    int dmg = cube6() * get_strength() * weapon.get_base_dmg() * critical_chance(get_luck() + weapon.get_critical_chance());
+    opponent.sub_hp(dmg);
+    if (opponent.get_hp() < 0) {
+        opponent.set_hp(0);
+    }
+    delay_text("\n" + get_nickname() + " used " + weapon.get_name() + " and dealt ");
+    std::cout << dmg;
+    delay_text(" physical dmg to " + opponent.get_nickname() + "!\n");
+}
+void Creature::spell_dmg(Creature &opponent, Spell spell) {
+    int dmg = cube6() * get_intellect() * spell.get_base_dmg() * critical_chance(get_luck());
+    int mana_cost = spell.get_mana_cost();
+    sub_mana(mana_cost);
+    opponent.sub_hp(dmg);
+    delay_text("\n" + get_nickname() + " used " + spell.get_name() + " and dealt ");
+    std::cout << dmg;
+    delay_text(" magical dmg to " + opponent.get_nickname() + "!\n");
+    if (opponent.get_hp() < 0) {
+        opponent.set_hp(0);
+    }
+} 
