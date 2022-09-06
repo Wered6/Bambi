@@ -37,7 +37,7 @@ int main() {
     Lady.add_weapon(Bite);
 
     intro();
-
+    
     Player1.set_name();
 
     story1(Player1.get_name());

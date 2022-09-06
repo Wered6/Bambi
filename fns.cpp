@@ -14,7 +14,7 @@ void back_to_default_color() {
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(h,7);
 }
-void delay_text(std::string text, int time) {
+void delay_text(string text, int time) {
     back_to_default_color();
     for (char i : text) {
         std::cout << i;
@@ -27,7 +27,7 @@ void cin_only_numbers(int &input, int end, int start) {
     while (!(std::cin >> input) || input < start || input > end) {
         delay_text("\nEnter valid number!\n");
         std::cin.clear();
-        std::cin.ignore(1000, '\n');
+        std::cin.ignore(10000, '\n');
         change_color();
         }
 }
@@ -37,12 +37,12 @@ void intro() {
     delay_text("BAMBI'S CASTLE!\n");
     delay_text("===============\n\n");
 }
-void story1(std::string name) {
+void story1(string name) {
     delay_text("\nHello " + name + "!\nWe called you to help us defeat the three-headed dog Bambi! She is very dangerous monster and she is a threat to our village!\n");
 
     next();
 }
-void story2(std::string name) {
+void story2(string name) {
     delay_text("\n\n" + name + " to get to the castle you have to take a long trip through woods and mountains. During the adventure we will collect various artifacts to strengthen ourselves!\n");
 
     next();
@@ -50,10 +50,10 @@ void story2(std::string name) {
 
 
 void next() {
-    std::string go;
-    delay_text("\nType anything and click 'Enter' to go further.\n");
+    string go;
+    delay_text("\nClick \"Enter\" to go.");
     change_color();
-    std::cin >> go;
+    getline(cin, go);
 }
 int cube(int i, int j) {
     srand (time(NULL));
@@ -66,7 +66,7 @@ int cube6() {
 
 
 void stats_details() {
-    std::string ready;
+    string ready;
     int stat;
 
     delay_text("\nDo you need more information about any of statistics?\n");
@@ -74,7 +74,7 @@ void stats_details() {
     while (ready != "Y" && ready != "N" && ready != "y" && ready != "n") {
     delay_text("(Y/N)?\n");
     change_color();
-    std::cin >> ready;
+    cin >> ready;
     }
 
     if (ready == "Y" || ready == "y") {

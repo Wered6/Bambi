@@ -3,7 +3,7 @@
 
 
 
-Weapon::Weapon(std::string new_name, int new_base_dmg, int new_critical_chance) {
+Weapon::Weapon(string new_name, int new_base_dmg, int new_critical_chance) {
     name = new_name;
     base_dmg = new_base_dmg;
     critical_chance = new_critical_chance;
@@ -15,12 +15,12 @@ Weapon::~Weapon() {
 void Weapon::show_stats() {
     delay_text("\n" + name + " weapon stats:\n\n");
     delay_text("[Base DMG]:      ");
-    std::cout << base_dmg << "\n";
+    cout << base_dmg << "\n";
     delay_text("[Crit Chance]:   ");
-    std::cout << critical_chance << "\n";
+    cout << critical_chance << "\n";
 }
 
-std::string Weapon::get_name() {
+string Weapon::get_name() {
     return name;
 }
 int Weapon::get_base_dmg() {

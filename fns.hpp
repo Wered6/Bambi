@@ -1,46 +1,48 @@
 #include <vector>
 
+using namespace std;
+
 
 
 class Spell {
 
-    std::string name;
+    string name;
     int base_dmg;
     int mana_cost;
 
 public:
 
-    Spell(std::string new_name, int new_base_dmg=0, int new_mana_cost=0);
+    Spell(string new_name, int new_base_dmg=0, int new_mana_cost=0);
     ~Spell();
 
     void show_stats();
 
-    std::string get_name();
+    string get_name();
     int get_base_dmg();
     int get_mana_cost();
 
 };
 class Weapon {
 
-    std::string name;
+    string name;
     int base_dmg;
     int critical_chance;
 
 public:
 
-    Weapon(std::string new_name, int new_base_dmg=0, int new_critical_chance=0);
+    Weapon(string new_name, int new_base_dmg=0, int new_critical_chance=0);
     ~Weapon();
 
     void show_stats();
 
-    std::string get_name();
+    string get_name();
     int get_base_dmg();
     int get_critical_chance();
 
 };
 class Artifact {
 
-    std::string name;
+    string name;
     int hp;
     int mana;
     int strength;
@@ -49,12 +51,12 @@ class Artifact {
 
 public:
 
-    Artifact(std::string new_name, int new_hp=0, int new_mana=0, int new_strength=0, int new_intellect=0, int new_luck=0);
+    Artifact(string new_name, int new_hp=0, int new_mana=0, int new_strength=0, int new_intellect=0, int new_luck=0);
     ~Artifact();
 
     void show_stats();
 
-    std::string get_name();
+    string get_name();
     int get_hp();
     int get_mana();
     int get_strength();
@@ -66,19 +68,19 @@ class Creature {
 
 protected:
 
-    std::string name;
+    string name;
     int hp;
     int mana;
     int strength;
     int intellect;
     int luck;
 
-    std::vector<Spell> spells;
-    std::vector<Weapon> weapons;
+    vector<Spell> spells;
+    vector<Weapon> weapons;
 
 public:
 
-    Creature(std::string new_name, int new_hp=100, int new_mana=100, int new_strength=5, int new_intellect=5, int new_luck=0);
+    Creature(string new_name, int new_hp=100, int new_mana=100, int new_strength=5, int new_intellect=5, int new_luck=0);
     ~Creature();
 
     void death();
@@ -87,7 +89,7 @@ public:
 
 
     void set_name();
-    std::string get_name();
+    string get_name();
 
 
     void set_hp(int new_hp);
@@ -117,11 +119,11 @@ public:
 
 
     void add_spell(Spell new_spell);
-    std::vector<Spell> get_spells();
+    vector<Spell> get_spells();
     void show_spells();
 
     void add_weapon(Weapon new_weapon);
-    std::vector<Weapon> get_weapons();
+    vector<Weapon> get_weapons();
     void show_weapons();
 
     void hand_dmg(Creature &opponent);
@@ -141,12 +143,12 @@ public:
 
 void change_color(int i=10); //change color text to green
 void back_to_default_color(); //back to default color text
-void delay_text(std::string text, int time=5); //delaying text
+void delay_text(string text, int time=5); //delaying text
 void cin_only_numbers(int &input, int end, int start=1); //u can input only numbers
 
 void intro();
-void story1(std::string name);
-void story2(std::string name);
+void story1(string name);
+void story2(string name);
 void next(); //asking to go next
 
 int cube(int i, int j=1); //random number j(1)-i

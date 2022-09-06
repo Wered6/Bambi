@@ -3,7 +3,7 @@
 
 
 
-Creature::Creature(std::string new_name, int new_hp, int new_mana, int new_strength, int new_intellect, int new_luck) {
+Creature::Creature(string new_name, int new_hp, int new_mana, int new_strength, int new_intellect, int new_luck) {
     name = new_name;
     hp = new_hp;
     mana = new_mana;
@@ -23,15 +23,15 @@ void Creature::death() {
 void Creature::show_stats() {
     delay_text("\n\n" + name + " stats:\n\n");
     delay_text("1) [HP]:        ");
-    std::cout << hp << "\n";
+    cout << hp << "\n";
     delay_text("2) [Mana]:      ");
-    std::cout << mana << "\n";
+    cout << mana << "\n";
     delay_text("3) [Strength]:  ");
-    std::cout << strength << "\n";
+    cout << strength << "\n";
     delay_text("4) [Intellect]: ");
-    std::cout << intellect << "\n";
+    cout << intellect << "\n";
     delay_text("5) [Luck]:      ");
-    std::cout << luck << "\n";
+    cout << luck << "\n";
 }
 
 
@@ -39,9 +39,9 @@ void Creature::show_stats() {
 void Creature::set_name() {
     delay_text("Enter your name adventurer:\n");
     change_color();
-    std::cin >> name;
+    getline(cin, name);
 }
-std::string Creature::get_name() {
+string Creature::get_name() {
     return name;
 }
 
@@ -115,13 +115,13 @@ int Creature::get_luck() {
 void Creature::add_spell(Spell new_spell) {
     spells.push_back(new_spell);
 }
-std::vector<Spell> Creature::get_spells() {
+vector<Spell> Creature::get_spells() {
     return spells;
 }
 void Creature::show_spells() {
     int i = 1;
     for (Spell spell : get_spells()) {
-        std::cout << "\n" << i;
+        cout << "\n" << i;
         i++;
         spell.show_stats();
     }
@@ -130,13 +130,13 @@ void Creature::show_spells() {
 void Creature::add_weapon(Weapon new_weapon) {
     weapons.push_back(new_weapon);
 }
-std::vector<Weapon> Creature::get_weapons() {
+vector<Weapon> Creature::get_weapons() {
     return weapons;
 }
 void Creature::show_weapons() {
     int i = 1;
     for (Weapon weapon : get_weapons()) {
-        std::cout << "\n" << i;
+        cout << "\n" << i;
         i++;
         weapon.show_stats();
     }
@@ -149,7 +149,7 @@ void Creature::hand_dmg(Creature &opponent) {
         opponent.set_hp(0);
     }
     delay_text("\n" + get_name() + " used bare hands and dealt ");
-    std::cout << dmg;
+    cout << dmg;
     delay_text(" physical dmg to " + opponent.get_name() + "!\n");
 }
 void Creature::weapon_dmg(Creature &opponent, Weapon weapon) {
@@ -159,7 +159,7 @@ void Creature::weapon_dmg(Creature &opponent, Weapon weapon) {
         opponent.set_hp(0);
     }
     delay_text("\n" + get_name() + " used " + weapon.get_name() + " and dealt ");
-    std::cout << dmg;
+    cout << dmg;
     delay_text(" physical dmg to " + opponent.get_name() + "!\n");
 }
 void Creature::spell_dmg(Creature &opponent, Spell spell) {
@@ -168,7 +168,7 @@ void Creature::spell_dmg(Creature &opponent, Spell spell) {
     sub_mana(mana_cost);
     opponent.sub_hp(dmg);
     delay_text("\n" + get_name() + " used " + spell.get_name() + " and dealt ");
-    std::cout << dmg;
+    cout << dmg;
     delay_text(" magical dmg to " + opponent.get_name() + "!\n");
     if (opponent.get_hp() < 0) {
         opponent.set_hp(0);
